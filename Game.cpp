@@ -1,6 +1,9 @@
 #include "Game.h"
 #include <iostream>
+#include <SDL_image.h>
+#include <string>
 
+using std::string;
 using std::cout;
 using std::endl;
 
@@ -66,7 +69,7 @@ bool Game::init(const char* title, int xpos, int ypos, int w, int h, bool fullSc
             if (m_pRdr)
             {
                 cout << "render creation success" << endl;
-                SDL_SetRenderDrawColor(m_pRdr, 255, 255, 255, 255);
+                SDL_SetRenderDrawColor(m_pRdr, 255, 0, 0, 255);
                 loadTex();
             }
             else
@@ -98,14 +101,18 @@ void Game::render()
 {
     SDL_RenderClear(m_pRdr);
 
-    SDL_RenderCopy(m_pRdr, m_pTex, &m_sourceRectangle, &m_destinationRectangle);
+    //SDL_RenderCopy(m_pRdr, m_pTex, &m_sourceRectangle, &m_destinationRectangle);
     //SDL_RenderCopy(m_pRdr, m_pTex, nullptr, nullptr);
+    //SDL_RenderCopyEx(m_pRdr, m_pTex, &m_sourceRectangle, &m_destinationRectangle, 0, 0, SDL_FLIP_HORIZONTAL);
+    m_texMgr.draw("animate", 0, 0, 128, 82, m_pRdr);
+    m_texMgr.drawFrame("animate", 100, 100, 128, 82, 1, m_curFrame, m_pRdr);
     SDL_RenderPresent(m_pRdr);
 }
 
 void Game::update()
 {
-    m_sourceRectangle.x = 128 * int((SDL_GetTicks() / 100) % 6);
+    //m_sourceRectangle.x = 128 * int((SDL_GetTicks() / 100) % 6);
+    m_curFrame = int((SDL_GetTicks() / 100) % 6);
 }
 
 void Game::handleEvent()
@@ -136,19 +143,22 @@ void Game::clean()
 void Game::loadTex()
 {
     //const char path[]  = "Resource/banana.bmp";
-    const char path[] = "Resource/animate.bmp";
-    SDL_Surface* pTmpSurface = SDL_LoadBMP(path);
-    m_pTex = SDL_CreateTextureFromSurface(m_pRdr, pTmpSurface);
-    SDL_FreeSurface(pTmpSurface);
-    SDL_QueryTexture(m_pTex, nullptr, nullptr, &m_sourceRectangle.w, &m_sourceRectangle.h);
-
-    m_sourceRectangle.x = 0;
-    m_sourceRectangle.y = 0;
-    m_sourceRectangle.w = 128;
-    m_sourceRectangle.h = 82;
-
-    m_destinationRectangle.x = m_sourceRectangle.x;
-    m_destinationRectangle.y = m_sourceRectangle.y;
-    m_destinationRectangle.w = m_sourceRectangle.w;
-    m_destinationRectangle.h = m_sourceRectangle.h;
+    const char bmpPath[] = "Resource/animate.bmp";
+    string pngPath("Resource/animate-alpha.png");
+    //SDL_Surface* pTmpSurface = SDL_LoadBMP(bmpPath);
+//     SDL_Surface* pTmpSurface = IMG_Load(pngPath);
+//     m_pTex = SDL_CreateTextureFromSurface(m_pRdr, pTmpSurface);
+//     SDL_FreeSurface(pTmpSurface);
+//     SDL_QueryTexture(m_pTex, nullptr, nullptr, &m_sourceRectangle.w, &m_sourceRectangle.h);
+// 
+//     m_sourceRectangle.x = 0;
+//     m_sourceRectangle.y = 0;
+//     m_sourceRectangle.w = 128;
+//     m_sourceRectangle.h = 82;
+// 
+//     m_destinationRectangle.x = m_sourceRectangle.x;
+//     m_destinationRectangle.y = m_sourceRectangle.y;
+//     m_destinationRectangle.w = m_sourceRectangle.w;
+//     m_destinationRectangle.h = m_sourceRectangle.h;
+    m_texMgr.load(pngPath,"animate",  m_pRdr);
 }

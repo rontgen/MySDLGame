@@ -21,9 +21,15 @@
     <ClCompile Include="Game.cpp">
       <Filter>依赖类</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>依赖类</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
+      <Filter>依赖类</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
       <Filter>依赖类</Filter>
     </ClInclude>
   </ItemGroup>
