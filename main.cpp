@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 //     }
 //     SDL_Quit();
     g_game = new Game();
-    g_game->init("My SDL Game", 100,100, 640,580, SDL_WINDOW_FULLSCREEN);
+    g_game->init("My SDL Game", 100,100, 640,580, false);
     while (g_game->running())
     {
         g_game->handleEvent();

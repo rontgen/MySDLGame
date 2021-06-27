@@ -19,14 +19,7 @@ bool Game::init(const char* title, int xpos, int ypos, int w, int h, int flags)
             {
                 cout << "render creation success" << endl;
                 SDL_SetRenderDrawColor(m_pRdr, 255, 255, 255, 255);
-                SDL_Surface* pTmpSurface = SDL_LoadBMP("Resource/banana.bmp");
-                m_pTex = SDL_CreateTextureFromSurface(m_pRdr, pTmpSurface);
-                SDL_FreeSurface(pTmpSurface);
-                SDL_QueryTexture(m_pTex, nullptr, nullptr, &m_sourceRectangle.w, &m_sourceRectangle.h);
-                m_destinationRectangle.x = m_sourceRectangle.x = 0;
-                m_destinationRectangle.y = m_sourceRectangle.y = 0;
-                m_destinationRectangle.w = m_sourceRectangle.w;
-                m_destinationRectangle.h = m_sourceRectangle.h;
+                loadTex();
             } 
             else
             {
@@ -74,6 +67,7 @@ bool Game::init(const char* title, int xpos, int ypos, int w, int h, bool fullSc
             {
                 cout << "render creation success" << endl;
                 SDL_SetRenderDrawColor(m_pRdr, 255, 255, 255, 255);
+                loadTex();
             }
             else
             {
@@ -105,10 +99,14 @@ void Game::render()
     SDL_RenderClear(m_pRdr);
 
     SDL_RenderCopy(m_pRdr, m_pTex, &m_sourceRectangle, &m_destinationRectangle);
-
+    //SDL_RenderCopy(m_pRdr, m_pTex, nullptr, nullptr);
     SDL_RenderPresent(m_pRdr);
 }
 
+void Game::update()
+{
+    m_sourceRectangle.x = 128 * int((SDL_GetTicks() / 100) % 6);
+}
 
 void Game::handleEvent()
 {
@@ -132,4 +130,25 @@ void Game::clean()
     SDL_DestroyWindow(m_pWnd);
     SDL_DestroyRenderer(m_pRdr);
     SDL_Quit();
+}
+
+
+void Game::loadTex()
+{
+    //const char path[]  = "Resource/banana.bmp";
+    const char path[] = "Resource/animate.bmp";
+    SDL_Surface* pTmpSurface = SDL_LoadBMP(path);
+    m_pTex = SDL_CreateTextureFromSurface(m_pRdr, pTmpSurface);
+    SDL_FreeSurface(pTmpSurface);
+    SDL_QueryTexture(m_pTex, nullptr, nullptr, &m_sourceRectangle.w, &m_sourceRectangle.h);
+
+    m_sourceRectangle.x = 0;
+    m_sourceRectangle.y = 0;
+    m_sourceRectangle.w = 128;
+    m_sourceRectangle.h = 82;
+
+    m_destinationRectangle.x = m_sourceRectangle.x;
+    m_destinationRectangle.y = m_sourceRectangle.y;
+    m_destinationRectangle.w = m_sourceRectangle.w;
+    m_destinationRectangle.h = m_sourceRectangle.h;
 }
