@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SDL.h>
-#include "TextureManager.h"
 
 class Game
 {
@@ -28,7 +27,6 @@ private:
     SDL_Rect m_destinationRectangle;
 
     int m_curFrame;
-    TextureManager m_texMgr;
 
     bool m_bRunning;
 };

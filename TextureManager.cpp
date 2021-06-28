@@ -1,6 +1,18 @@
 #include "TextureManager.h"
 #include <SDL_image.h>
 
+TextureManager* TextureManager::s_instance = nullptr;
+
+TextureManager* TextureManager::instance()
+{
+    if (s_instance == nullptr)
+    {
+        s_instance = new TextureManager();
+        return s_instance;
+    }
+    return s_instance;
+}
+
 bool TextureManager::load(string fileName, string id, SDL_Renderer* pRenderer)
 {
     auto pTmpSur = IMG_Load(fileName.c_str());

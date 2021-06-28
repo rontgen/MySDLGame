@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SDL_image.h>
 #include <string>
+#include "TextureManager.h"
 
 using std::string;
 using std::cout;
@@ -104,8 +105,8 @@ void Game::render()
     //SDL_RenderCopy(m_pRdr, m_pTex, &m_sourceRectangle, &m_destinationRectangle);
     //SDL_RenderCopy(m_pRdr, m_pTex, nullptr, nullptr);
     //SDL_RenderCopyEx(m_pRdr, m_pTex, &m_sourceRectangle, &m_destinationRectangle, 0, 0, SDL_FLIP_HORIZONTAL);
-    m_texMgr.draw("animate", 0, 0, 128, 82, m_pRdr);
-    m_texMgr.drawFrame("animate", 100, 100, 128, 82, 1, m_curFrame, m_pRdr);
+    TextureManager::instance()->draw("animate", 0, 0, 128, 82, m_pRdr);
+    TextureManager::instance()->drawFrame("animate", 100, 100, 128, 82, 1, m_curFrame, m_pRdr);
     SDL_RenderPresent(m_pRdr);
 }
 
@@ -160,5 +161,5 @@ void Game::loadTex()
 //     m_destinationRectangle.y = m_sourceRectangle.y;
 //     m_destinationRectangle.w = m_sourceRectangle.w;
 //     m_destinationRectangle.h = m_sourceRectangle.h;
-    m_texMgr.load(pngPath,"animate",  m_pRdr);
+    TextureManager::instance()->load(pngPath,"animate",  m_pRdr);
 }
