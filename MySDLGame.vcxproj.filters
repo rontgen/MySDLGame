@@ -32,5 +32,8 @@
     <ClInclude Include="TextureManager.h">
       <Filter>依赖类</Filter>
     </ClInclude>
+    <ClInclude Include="GameObj.h">
+      <Filter>依赖类</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
