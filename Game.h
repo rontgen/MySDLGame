@@ -2,11 +2,14 @@
 
 #include <SDL.h>
 
+class GameObj;
+class Player;
+
 class Game
 {
 public:
-    Game()=default;
-    ~Game()=default;
+    Game();
+    ~Game();
     void init() { m_bRunning = true; }
     bool init(const char* title, int xpos, int ypos, int w, int h, bool fullScreen);
     bool init(const char* title, int xpos, int ypos, int w, int h, int flags);
@@ -29,4 +32,7 @@ private:
     int m_curFrame;
 
     bool m_bRunning;
+
+    GameObj* m_pGO=nullptr;
+    Player* m_pPl=nullptr;
 };

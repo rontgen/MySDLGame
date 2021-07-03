@@ -3,10 +3,34 @@
 #include <SDL_image.h>
 #include <string>
 #include "TextureManager.h"
+#include "Player.h"
 
 using std::string;
 using std::cout;
 using std::endl;
+
+static string g_sAnim = "animate";
+
+Game::Game()
+    : m_bRunning(true)
+{
+    m_pGO = new GameObj();
+    m_pPl = new Player();
+}
+
+Game::~Game()
+{
+    if (m_pGO)
+    {
+        delete m_pGO;
+        m_pGO = nullptr;
+    }
+    if (m_pPl)
+    {
+        delete m_pPl;
+        m_pPl = nullptr;
+    }
+}
 
 bool Game::init(const char* title, int xpos, int ypos, int w, int h, int flags)
 {
@@ -47,8 +71,12 @@ bool Game::init(const char* title, int xpos, int ypos, int w, int h, int flags)
     m_bRunning = true;
     //start main loop
 
+    m_pGO->load(100, 100, 128, 82, g_sAnim);
+    m_pPl->load(300, 300, 128, 82, g_sAnim);
     return true;
 }
+
+
 
 bool Game::init(const char* title, int xpos, int ypos, int w, int h, bool fullScreen)
 {
@@ -94,7 +122,8 @@ bool Game::init(const char* title, int xpos, int ypos, int w, int h, bool fullSc
     cout << "init success" << endl;
     m_bRunning = true;
     //start main loop
-
+    m_pGO->load(100, 100, 128, 82, g_sAnim);
+    m_pPl->load(300, 300, 128, 82, g_sAnim);
     return true;
 }
 
@@ -105,15 +134,20 @@ void Game::render()
     //SDL_RenderCopy(m_pRdr, m_pTex, &m_sourceRectangle, &m_destinationRectangle);
     //SDL_RenderCopy(m_pRdr, m_pTex, nullptr, nullptr);
     //SDL_RenderCopyEx(m_pRdr, m_pTex, &m_sourceRectangle, &m_destinationRectangle, 0, 0, SDL_FLIP_HORIZONTAL);
-    TextureManager::instance()->draw("animate", 0, 0, 128, 82, m_pRdr);
-    TextureManager::instance()->drawFrame("animate", 100, 100, 128, 82, 1, m_curFrame, m_pRdr);
+    //TextureManager::instance()->draw("animate", 0, 0, 128, 82, m_pRdr);
+    //TextureManager::instance()->drawFrame("animate", 100, 100, 128, 82, 1, m_curFrame, m_pRdr);
+    m_pGO->draw(m_pRdr);
+    m_pPl->draw(m_pRdr, SDL_FLIP_HORIZONTAL);
+    
     SDL_RenderPresent(m_pRdr);
 }
 
 void Game::update()
 {
     //m_sourceRectangle.x = 128 * int((SDL_GetTicks() / 100) % 6);
-    m_curFrame = int((SDL_GetTicks() / 100) % 6);
+    //m_curFrame = int((SDL_GetTicks() / 100) % 6);
+    m_pGO->update();
+    m_pPl->update();
 }
 
 void Game::handleEvent()
