@@ -1,3 +1,9 @@
+/**
+* Author:gwang
+* Date: 2021-07-03
+* Description: Game State Related
+*/
+
 #pragma once
 
 #include <SDL.h>

@@ -1,3 +1,9 @@
+/**
+* Author:gwang
+* Date: 2021-07-03
+* Description: Game Object Base Class Related
+*/
+
 #pragma once
 
 #include <string>
