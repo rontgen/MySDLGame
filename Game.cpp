@@ -4,6 +4,7 @@
 #include <string>
 #include "TextureManager.h"
 #include "Player.h"
+#include "Enemy.h"
 
 using std::string;
 using std::cout;
@@ -14,23 +15,41 @@ static string g_sAnim = "animate";
 Game::Game()
     : m_bRunning(true)
 {
+//     m_enemy1 = new Enemy();
+//     m_enemy2 = new Enemy();
+//     m_enemy3 = new Enemy();
+//     m_player = new Player();
+// 
+//     m_gameObj.emplace_back(m_player);
+//     m_gameObj.emplace_back(m_enemy1);
+//     m_gameObj.emplace_back(m_enemy2);
+//     m_gameObj.emplace_back(m_enemy3);
     m_pGO = new GameObj();
-    m_pPl = new Player();
+    m_player = new Player();
+    m_pEnemy = new Enemy();
+    m_pGO->load(100, 100, 128, 82, g_sAnim);
+    m_player->load(300, 300, 128, 82, g_sAnim);
+    m_pEnemy->load(0, 0, 128, 82, g_sAnim);
+    
+    m_gameObj.emplace_back(m_pGO);
+    m_gameObj.emplace_back(m_player);
+    m_gameObj.emplace_back(m_pEnemy);
+
+
 }
 
 Game::~Game()
 {
-    if (m_pGO)
+    for (auto m  : m_gameObj)
     {
-        delete m_pGO;
-        m_pGO = nullptr;
+        delete m;
     }
-    if (m_pPl)
+    if (!m_gameObj.empty())
     {
-        delete m_pPl;
-        m_pPl = nullptr;
+        m_gameObj.clear();
     }
 }
+
 
 bool Game::init(const char* title, int xpos, int ypos, int w, int h, int flags)
 {
@@ -122,8 +141,8 @@ bool Game::init(const char* title, int xpos, int ypos, int w, int h, bool fullSc
     cout << "init success" << endl;
     m_bRunning = true;
     //start main loop
-    m_pGO->load(100, 100, 128, 82, g_sAnim);
-    m_pPl->load(300, 300, 128, 82, g_sAnim);
+//     m_pGO->load(100, 100, 128, 82, g_sAnim);
+//     m_pPl->load(300, 300, 128, 82, g_sAnim);
     return true;
 }
 
@@ -136,18 +155,27 @@ void Game::render()
     //SDL_RenderCopyEx(m_pRdr, m_pTex, &m_sourceRectangle, &m_destinationRectangle, 0, 0, SDL_FLIP_HORIZONTAL);
     //TextureManager::instance()->draw("animate", 0, 0, 128, 82, m_pRdr);
     //TextureManager::instance()->drawFrame("animate", 100, 100, 128, 82, 1, m_curFrame, m_pRdr);
-    m_pGO->draw(m_pRdr);
-    m_pPl->draw(m_pRdr, SDL_FLIP_HORIZONTAL);
+    draw();
     
     SDL_RenderPresent(m_pRdr);
+}
+
+void Game::draw()
+{
+    for (auto m : m_gameObj)
+    {
+        m->draw(m_pRdr);
+    }
 }
 
 void Game::update()
 {
     //m_sourceRectangle.x = 128 * int((SDL_GetTicks() / 100) % 6);
     //m_curFrame = int((SDL_GetTicks() / 100) % 6);
-    m_pGO->update();
-    m_pPl->update();
+    for (auto m : m_gameObj)
+    {
+        m->update();
+    }
 }
 
 void Game::handleEvent()

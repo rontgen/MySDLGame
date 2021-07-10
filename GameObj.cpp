@@ -3,6 +3,10 @@
 
 static TextureManager* g_sTM = TextureManager::instance();
 
+GameObj::~GameObj()
+{
+}
+
 void GameObj::load(int px, int py, int pw, int ph, std::string sTexId)
 {
     x = px;

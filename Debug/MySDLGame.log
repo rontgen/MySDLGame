@@ -1,2 +1,4 @@
-﻿  GameObj.cpp
+﻿  Enemy.cpp
+  Player.cpp
+  正在生成代码...
   MySDLGame.vcxproj -> E:\new_start\MySDLGame\Debug\MySDLGame.exe

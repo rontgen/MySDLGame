@@ -7,9 +7,10 @@
 #pragma once
 
 #include <SDL.h>
+#include <vector>
 
 class GameObj;
-class Player;
+
 
 class Game
 {
@@ -23,7 +24,7 @@ public:
     void update();
     void handleEvent();
     void clean();
-
+    void draw();
     bool running() { return m_bRunning; }
 private:
     void loadTex();
@@ -39,6 +40,14 @@ private:
 
     bool m_bRunning;
 
-    GameObj* m_pGO=nullptr;
-    Player* m_pPl=nullptr;
+    GameObj* m_player = nullptr;
+    GameObj* m_enemy1 = nullptr;
+    GameObj* m_enemy2 = nullptr;
+    GameObj* m_enemy3 = nullptr;
+
+    GameObj* m_pGO = nullptr;
+    GameObj* m_pPl = nullptr;
+    GameObj* m_pEnemy = nullptr;
+
+    std::vector<GameObj*> m_gameObj;
 };

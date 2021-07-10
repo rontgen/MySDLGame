@@ -12,6 +12,7 @@
 class GameObj
 {
 public:
+    virtual ~GameObj();
     virtual void load(int x, int y, int w, int h, std::string sTexId);
     virtual void draw(SDL_Renderer* pRender, SDL_RendererFlip flag = SDL_FLIP_NONE);
     virtual void update();
